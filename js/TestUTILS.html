@@ -1,0 +1,152 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>JavaScript Test UTILS</title>
+</head>
+<body>
+<h1>JavaScript Test UTILS Example</h1>
+<script type="text/javascript" src="ROM.js"></script>
+<script type="text/javascript" src="HASH.js"></script>
+<script type="text/javascript" src="UTILS.js"></script>
+
+
+<script>
+/* test driver and function exerciser for UTILS API Functions */
+        function assertEqual(value, expect) {
+                if (value !== expect) {
+                        return "<span style='color:red;'>" + value + " : expect (" + expect + ")</span>";
+                } else {
+                        return value;
+                }
+        }
+        function assertEqualObject(value, expect) {
+                if (JSON.stringify(value) !== JSON.stringify(expect)) {
+                        return "<span style='color:red;'>" + JSON.stringify(value) + " : expect (" + JSON.stringify(expect) + ")</span>";
+                } else {
+                        return JSON.stringify(value);
+                }
+        }
+
+
+	window.document.write("isBytes(null)= " + assertEqual(isBytes(null), false) + "<br>");
+	window.document.write("isBytes('')= " + assertEqual(isBytes(''), false) + "<br>");
+	window.document.write("isBytes([])= " + assertEqual(isBytes([]), true) + "<br>");
+	window.document.write("isBytes(['a'])= " + assertEqual(isBytes(['a']), false) + "<br>");
+	window.document.write("isBytes([1.0])= " + assertEqual(isBytes([1.0]), true) + "<br>");
+	window.document.write("isBytes([1.1])= " + assertEqual(isBytes([1.1]), false) + "<br>");
+	window.document.write("isBytes([0])= " + assertEqual(isBytes([0]), true) + "<br>");
+	window.document.write("isBytes([255])= " + assertEqual(isBytes([255]), true) + "<br>");
+	window.document.write("isBytes([-1])= " + assertEqual(isBytes([-1]), false) + "<br>");
+	window.document.write("isBytes([256])= " + assertEqual(isBytes([256]), false) + "<br>");
+	window.document.write("isBytes([0, 255])= " + assertEqual(isBytes([0, 255]), true) + "<br>");
+	window.document.write("isBytes([-1, 255])= " + assertEqual(isBytes([-1, 255]), false) + "<br>");
+	window.document.write("isBytes([0, 256])= " + assertEqual(isBytes([0, 256]), false) + "<br>");
+	window.document.write("<br>");
+
+
+	window.document.write("uint2bytes(null)= " + assertEqualObject(uint2bytes(null), null) + "<br>");
+	window.document.write("uint2bytes('')= " + assertEqualObject(uint2bytes(''), null) + "<br>");
+	window.document.write("uint2bytes(1.0)= " + assertEqualObject(uint2bytes(1.0), [1]) + "<br>");
+	window.document.write("uint2bytes(1.1)= " + assertEqualObject(uint2bytes(1.1), null) + "<br>");
+	window.document.write("uint2bytes(0)= " + assertEqualObject(uint2bytes(0), [0]) + "<br>");
+	window.document.write("uint2bytes(-1)= " + assertEqualObject(uint2bytes(-1), null) + "<br>");
+	window.document.write("uint2bytes(1)= " + assertEqualObject(uint2bytes(1), [1]) + "<br>");
+	window.document.write("uint2bytes(255)= " + assertEqualObject(uint2bytes(255), [255]) + "<br>");
+	window.document.write("uint2bytes(256)= " + assertEqualObject(uint2bytes(256), [0, 1]) + "<br>");
+	window.document.write("uint2bytes(257)= " + assertEqualObject(uint2bytes(257), [1, 1]) + "<br>");
+	window.document.write("uint2bytes(65536)= " + assertEqualObject(uint2bytes(65536), [0, 0, 1]) + "<br>");
+	window.document.write("<br>");
+
+
+	window.document.write("uint2fixedLengthBytes(null, 0)= " + assertEqualObject(uint2fixedLengthBytes(null, 0), null) + "<br>");
+	window.document.write("uint2fixedLengthBytes(0, 0)= " + assertEqualObject(uint2fixedLengthBytes(0, 0), [0]) + "<br>");
+	window.document.write("uint2fixedLengthBytes(0, 1)= " + assertEqualObject(uint2fixedLengthBytes(0, 1), [0]) + "<br>");
+	window.document.write("uint2fixedLengthBytes(0, 2)= " + assertEqualObject(uint2fixedLengthBytes(0, 2), [0, 0]) + "<br>");
+	window.document.write("uint2fixedLengthBytes(0, 3)= " + assertEqualObject(uint2fixedLengthBytes(0, 3), [0, 0, 0]) + "<br>");
+	window.document.write("uint2fixedLengthBytes(256, 2)= " + assertEqualObject(uint2fixedLengthBytes(256, 2), [0, 1]) + "<br>");
+	window.document.write("uint2fixedLengthBytes(256, 3)= " + assertEqualObject(uint2fixedLengthBytes(256, 3), [0, 1, 0]) + "<br>");
+	window.document.write("uint2fixedLengthBytes(256, 4)= " + assertEqualObject(uint2fixedLengthBytes(256, 4), [0, 1, 0, 0]) + "<br>");
+	window.document.write("<br>");
+
+
+	window.document.write("bytes2uint(null)= " + assertEqual(bytes2uint(null), null) + "<br>");
+	window.document.write("bytes2uint([])= " + assertEqual(bytes2uint([]), 0) + "<br>");
+	window.document.write("bytes2uint([0])= " + assertEqual(bytes2uint([0]), 0) + "<br>");
+	window.document.write("bytes2uint([1])= " + assertEqual(bytes2uint([1]), 1) + "<br>");
+	window.document.write("bytes2uint([255])= " + assertEqual(bytes2uint([255]), 255) + "<br>");
+	window.document.write("bytes2uint([0, 1])= " + assertEqual(bytes2uint([0, 1]), 256) + "<br>");
+	window.document.write("bytes2uint([1, 1])= " + assertEqual(bytes2uint([1, 1]), 257) + "<br>");
+	window.document.write("bytes2uint([0, 0, 1])= " + assertEqual(bytes2uint([0, 0, 1]), 65536) + "<br>");
+	window.document.write("<br>");
+
+
+	window.document.write("str2bytes(null)= " + assertEqualObject(str2bytes(null), null) + "<br>");
+	window.document.write("str2bytes(0)= " + assertEqualObject(str2bytes(0), null) + "<br>");
+	window.document.write("str2bytes('')= " + assertEqualObject(str2bytes(''), []) + "<br>");
+	window.document.write("str2bytes(' ')= " + assertEqualObject(str2bytes(' '), [32]) + "<br>");
+	window.document.write("str2bytes(' ~')= " + assertEqualObject(str2bytes(' ~'), [32, 126]) + "<br>");
+	window.document.write("<br>");
+
+
+	window.document.write("bytes2str(null)= " + assertEqual(bytes2str(null), null) + "<br>");
+	window.document.write("bytes2str([])= " + assertEqual(bytes2str([]), '') + "<br>");
+	window.document.write("bytes2str([97])= " + assertEqual(bytes2str([97]), 'a') + "<br>");
+	window.document.write("bytes2str([32, 126])= " + assertEqual(bytes2str([32, 126]), ' ~') + "<br>");
+	window.document.write("<br>");
+
+
+	window.document.write("hexstr2bytes(null)= " + assertEqualObject(hexstr2bytes(null), null) + "<br>");
+	window.document.write("hexstr2bytes(0)= " + assertEqualObject(hexstr2bytes(0), null) + "<br>");
+	window.document.write("hexstr2bytes('')= " + assertEqualObject(hexstr2bytes(''), []) + "<br>");
+	window.document.write("hexstr2bytes('0')= " + assertEqualObject(hexstr2bytes('0'), [0]) + "<br>");
+	window.document.write("hexstr2bytes('9')= " + assertEqualObject(hexstr2bytes('9'), [9]) + "<br>");
+	window.document.write("hexstr2bytes('a')= " + assertEqualObject(hexstr2bytes('a'), [10]) + "<br>");
+	window.document.write("hexstr2bytes('f')= " + assertEqualObject(hexstr2bytes('f'), [15]) + "<br>");
+	window.document.write("hexstr2bytes('A')= " + assertEqualObject(hexstr2bytes('A'), [10]) + "<br>");
+	window.document.write("hexstr2bytes('F')= " + assertEqualObject(hexstr2bytes('F'), [15]) + "<br>");
+	window.document.write("hexstr2bytes('/')= " + assertEqualObject(hexstr2bytes('/'), null) + "<br>");
+	window.document.write("hexstr2bytes(':')= " + assertEqualObject(hexstr2bytes(':'), null) + "<br>");
+	window.document.write("hexstr2bytes('`')= " + assertEqualObject(hexstr2bytes('`'), null) + "<br>");
+	window.document.write("hexstr2bytes('g')= " + assertEqualObject(hexstr2bytes('g'), null) + "<br>");
+	window.document.write("hexstr2bytes('@')= " + assertEqualObject(hexstr2bytes('@'), null) + "<br>");
+	window.document.write("hexstr2bytes('G')= " + assertEqualObject(hexstr2bytes('G'), null) + "<br>");
+	window.document.write("hexstr2bytes('ff')= " + assertEqualObject(hexstr2bytes('ff'), [255]) + "<br>");
+	window.document.write("hexstr2bytes('fg')= " + assertEqualObject(hexstr2bytes('fg'), null) + "<br>");
+	window.document.write("hexstr2bytes('0f00')= " + assertEqualObject(hexstr2bytes('0f00'), [15, 0]) + "<br>");
+	window.document.write("hexstr2bytes('f00')= " + assertEqualObject(hexstr2bytes('f00'), [15, 0]) + "<br>");
+	window.document.write("<br>");
+
+
+	window.document.write("bytes2hexstr(null)= " + assertEqual(bytes2hexstr(null), null) + "<br>");
+	window.document.write("bytes2hexstr([])= " + assertEqual(bytes2hexstr([]), '') + "<br>");
+	window.document.write("bytes2hexstr([0])= " + assertEqual(bytes2hexstr([0]), '00') + "<br>");
+	window.document.write("bytes2hexstr([1])= " + assertEqual(bytes2hexstr([1]), '01') + "<br>");
+	window.document.write("bytes2hexstr([255])= " + assertEqual(bytes2hexstr([255]), 'ff') + "<br>");
+	window.document.write("bytes2hexstr([15, 0])= " + assertEqual(bytes2hexstr([15, 0]), '0f00') + "<br>");
+	window.document.write("<br>");
+
+
+	window.document.write("hashIntoBytesFromString(null)= " + assertEqualObject(hashIntoBytesFromString(null), null) + "<br>");
+	window.document.write("hashIntoBytesFromString(0)= " + assertEqualObject(hashIntoBytesFromString(0), null) + "<br>");
+	window.document.write("hashIntoBytesFromString('')= " + assertEqualObject(hashIntoBytesFromString(''), [227,176,196,66,152,252,28,20,154,251,244,200,153,111,185,36,39,174,65,228,100,155,147,76,164,149,153,27,120,82,184,85]) + "<br>");
+	window.document.write("hashIntoBytesFromString(' ')= " + assertEqualObject(hashIntoBytesFromString(' '), [54,169,231,241,201,91,130,255,185,151,67,224,197,196,206,149,216,60,154,67,10,172,89,248,78,243,203,250,182,20,80,104]) + "<br>");
+	window.document.write("hashIntoBytesFromString(' ~')= " + assertEqualObject(hashIntoBytesFromString(' ~'), [207,63,208,213,83,77,104,138,34,235,86,83,98,128,84,55,11,223,208,46,91,147,57,210,59,242,115,153,251,191,131,4]) + "<br>");
+	window.document.write("<br>");
+
+
+	window.document.write("hashIntoBytesFromBytes(null)= " + assertEqualObject(hashIntoBytesFromBytes(null), null) + "<br>");
+	window.document.write("hashIntoBytesFromBytes([])= " + assertEqualObject(hashIntoBytesFromBytes([]), [227,176,196,66,152,252,28,20,154,251,244,200,153,111,185,36,39,174,65,228,100,155,147,76,164,149,153,27,120,82,184,85]) + "<br>");
+	window.document.write("hashIntoBytesFromBytes([0])= " + assertEqualObject(hashIntoBytesFromBytes([0]), [110,52,11,156,255,179,122,152,156,165,68,230,187,120,10,44,120,144,29,63,179,55,56,118,133,17,163,6,23,175,160,29]) + "<br>");
+	window.document.write("hashIntoBytesFromBytes([0, 1])= " + assertEqualObject(hashIntoBytesFromBytes([0, 1]), [180,19,244,125,19,238,47,230,200,69,178,238,20,26,248,29,232,88,223,78,197,73,165,139,121,112,187,150,100,91,200,210]) + "<br>");
+	window.document.write("<br>");
+
+
+	window.document.write("reverseBytes(null)= " + assertEqualObject(reverseBytes(null), null) + "<br>");
+	window.document.write("reverseBytes([])= " + assertEqualObject(reverseBytes([]), []) + "<br>");
+	window.document.write("reverseBytes([0])= " + assertEqualObject(reverseBytes([0]), [0]) + "<br>");
+	window.document.write("reverseBytes([0, 1])= " + assertEqualObject(reverseBytes([0, 1]), [1, 0]) + "<br>");
+	window.document.write("reverseBytes([0, 1, 2])= " + assertEqualObject(reverseBytes([0, 1, 2]), [2, 1, 0]) + "<br>");
+	window.document.write("<br>");
+</script>
+</body>
+</html>
